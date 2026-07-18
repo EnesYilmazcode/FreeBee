@@ -1,0 +1,18 @@
+{
+  "hosting": {
+    "site": "freebee-ramp",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      ".git/**",
+      ".firebase/**",
+      "**/node_modules/**",
+      "research/**",
+      "demo/**",
+      "agent/*.py",
+      "agent/README.md",
+      "*.md"
+    ]
+  }
+}
