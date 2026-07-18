@@ -1,0 +1,49 @@
+/* FreeBee claim affordance for Gmail inbox rows. */
+tr.freebee-claimable > td {
+  background-color: #fff9d9 !important;
+}
+
+tr.freebee-claimable:hover > td,
+tr.freebee-claimable:focus-within > td {
+  background-color: #fff2a8 !important;
+}
+
+td.freebee-claim-cell {
+  position: relative !important;
+}
+
+.freebee-claim-button {
+  appearance: none;
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  right: 8px;
+  translate: 0 -50%;
+  display: none;
+  min-width: 66px;
+  height: 30px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 15px;
+  color: #202124;
+  background: #fbbc04;
+  box-shadow: 0 1px 3px rgb(60 64 67 / 35%);
+  font: 600 13px/30px Arial, sans-serif;
+  cursor: pointer;
+}
+
+tr.freebee-claimable:hover .freebee-claim-button,
+tr.freebee-claimable:focus-within .freebee-claim-button,
+.freebee-claim-button:focus-visible {
+  display: inline-block;
+}
+
+.freebee-claim-button:hover {
+  background: #f9ab00;
+  box-shadow: 0 2px 5px rgb(60 64 67 / 45%);
+}
+
+.freebee-claim-button:focus-visible {
+  outline: 2px solid #1a73e8;
+  outline-offset: 2px;
+}

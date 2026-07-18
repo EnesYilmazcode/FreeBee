@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "FreeBee — Free money, zero effort",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Save your survey info once, autofill any survey, and track every reward code the bee claims for you.",
   "action": {
     "default_popup": "popup.html",
@@ -12,5 +12,13 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "permissions": ["storage", "activeTab", "scripting"]
+  "permissions": ["storage", "activeTab", "scripting"],
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["gmail.js"],
+      "css": ["gmail.css"],
+      "run_at": "document_idle"
+    }
+  ]
 }
