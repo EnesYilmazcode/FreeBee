@@ -11,12 +11,13 @@
   body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);
        background:radial-gradient(120% 60% at 50% 0%,#fff7dd 0%,var(--bg) 55%);min-height:100%}
   .app{max-width:440px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding:18px 16px 28px}
-  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px}
   .brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:20px}
   .brand .dot{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--bee),#ff8a00);
        display:flex;align-items:center;justify-content:center;font-size:19px}
   .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700}
   .pill b{color:var(--ok)}
+  .iconbtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:18px;cursor:pointer}
   .screen{flex:1;display:none;flex-direction:column;animation:fade .25s ease}
   .screen.on{display:flex}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -32,28 +33,28 @@
   .find .amt{font-size:34px;font-weight:850;color:#b06a00}
   .find .what{font-weight:700;margin-top:2px}
   label.fld{display:block;font-size:13px;color:var(--muted);margin:16px 4px 6px;font-weight:600}
-  .inwrap{display:flex;gap:8px}
-  input[type=email],input[type=text]{flex:1;font-size:16px;padding:13px 14px;border:2px solid var(--line);border-radius:12px}
+  input[type=email],input[type=text],input[type=tel]{width:100%;font-size:16px;padding:13px 14px;border:2px solid var(--line);border-radius:12px;font-family:inherit}
   input:focus{outline:none;border-color:var(--bee)}
-  .btn{width:100%;border:0;border-radius:14px;padding:16px;font-size:17px;font-weight:800;cursor:pointer;margin-top:16px}
+  input.code{letter-spacing:2px;font-variant-numeric:tabular-nums;font-weight:700}
+  .btn{width:100%;border:0;border-radius:14px;padding:16px;font-size:17px;font-weight:800;cursor:pointer;margin-top:12px}
   .btn.primary{background:linear-gradient(135deg,var(--bee),#ff8a00);color:#231a00}
   .btn.ghost{background:#fff;border:1px solid var(--line);color:var(--ink);font-weight:700}
   .btn:active{transform:translateY(1px)}
-  .mic{flex:0 0 auto;width:52px;border:2px solid var(--line);background:#fff;border-radius:12px;font-size:20px;cursor:pointer}
-  .mic.live{border-color:var(--bee);background:#fff7dd;animation:pulse 1s infinite}
-  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,177,0,.4)}50%{box-shadow:0 0 0 8px rgba(255,177,0,0)}}
-  iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:16px;background:#fff}
   .counter{text-align:center;margin:6px 0 12px}
   .counter .n{font-size:40px;font-weight:850;color:var(--ok)}
   .counter .l{font-size:12px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
-  .steps{font-size:13px;color:var(--muted);margin-top:8px;min-height:20px}
+  #frame{width:100%;height:300px;object-fit:contain;background:#0f0f12;border:1px solid var(--line);border-radius:16px}
+  .steps{font-size:14px;color:var(--muted);margin-top:10px;min-height:20px;text-align:center}
+  .watch{font-size:12px;color:#b06a00;background:#fff7dd;border:1px solid #ffe6a1;border-radius:10px;padding:8px;text-align:center;margin-top:10px}
   .done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
   .done .chk{font-size:64px}
-  .code{display:inline-block;margin:8px 0;font-size:26px;font-weight:850;letter-spacing:2px;color:#b06a00;
+  .code-out{display:inline-block;margin:8px 0;font-size:26px;font-weight:850;letter-spacing:2px;color:#b06a00;
        background:#fff7dd;border:2px dashed var(--bee);border-radius:12px;padding:10px 20px}
   .muted{color:var(--muted);font-size:13px}
-  .thumb{max-width:120px;border-radius:10px;margin:4px auto;display:block}
-  a.small{color:var(--muted);font-size:13px;text-decoration:underline;text-align:center;margin-top:12px;display:block}
+  .thumb{max-width:130px;border-radius:10px;margin:2px auto 6px;display:block}
+  a.small{color:var(--muted);font-size:13px;text-decoration:underline;text-align:center;margin-top:12px;display:block;cursor:pointer}
+  .spin{display:inline-block;width:16px;height:16px;border:2px solid #ffe6a1;border-top-color:var(--bee);border-radius:50%;animation:sp .8s linear infinite;vertical-align:-3px;margin-right:6px}
+  @keyframes sp{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -61,39 +62,54 @@
   <div class="top">
     <div class="brand"><span class="dot">🐝</span> FreeBee</div>
     <div class="pill">recovered <b id="pill-amt">$0</b></div>
+    <button class="iconbtn" title="Your profile" onclick="go('s-profile')">👤</button>
   </div>
 
-  <!-- SCREEN 1: scan -->
+  <!-- SCREEN 1: scan / upload -->
   <section class="screen on" id="s-home">
     <div class="hero">
       <div class="beebig">🐝</div>
       <div class="big">Free money is hiding<br>in your receipts.</div>
-      <div class="sub">Scan a receipt. FreeBee finds the reward and sends a bee to claim it — you do nothing.</div>
+      <div class="sub">Scan or upload a receipt. FreeBee sends a bee to claim the reward — you do nothing.</div>
     </div>
-    <label class="btn primary" for="file">📸 Scan a receipt</label>
-    <input id="file" type="file" accept="image/*" capture="environment" style="display:none" onchange="onScan(this)">
-    <button class="btn ghost" onclick="onSample()">Try a sample receipt</button>
+    <label class="btn primary" for="cam">📸 Scan a receipt</label>
+    <input id="cam" type="file" accept="image/*" capture="environment" style="display:none" onchange="onScan(this)">
+    <label class="btn ghost" for="upl">🖼️ Upload a photo</label>
+    <input id="upl" type="file" accept="image/*" style="display:none" onchange="onScan(this)">
   </section>
 
-  <!-- SCREEN 2: found + email -->
+  <!-- SCREEN: profile -->
+  <section class="screen" id="s-profile">
+    <div class="card">
+      <div style="font-weight:800;font-size:18px;margin-bottom:2px">Your profile</div>
+      <div class="muted">Saved on this device. Auto-filled if a survey asks for it.</div>
+      <label class="fld">Name</label><input id="p-name" type="text" placeholder="Jane Doe">
+      <label class="fld">Email (where rewards go)</label><input id="p-email" type="email" placeholder="you@email.com">
+      <label class="fld">Phone</label><input id="p-phone" type="tel" placeholder="(555) 123-4567">
+      <label class="fld">ZIP</label><input id="p-zip" type="text" placeholder="10001">
+      <button class="btn primary" onclick="saveProfile()">Save</button>
+    </div>
+    <a class="small" onclick="go('s-home')">← back</a>
+  </section>
+
+  <!-- SCREEN 2: found + confirm code -->
   <section class="screen" id="s-found">
     <img id="thumb" class="thumb" style="display:none" alt="">
     <div class="card">
-      <div class="row"><span>Merchant</span><b id="f-merch">McDonald's</b></div>
-      <div class="row"><span>Purchase</span><b id="f-item">Big Mac Meal · $11.74</b></div>
-      <div class="row"><span>Date</span><b id="f-date">Jul 18, 2026</b></div>
-      <div class="find">
-        <div class="muted">FreeBee found</div>
-        <div class="amt" id="f-amt">$4.29</div>
-        <div class="what" id="f-what">FREE Medium Fries 🍟</div>
+      <div id="scan-busy" class="muted" style="text-align:center"><span class="spin"></span>Reading your receipt…</div>
+      <div id="scan-result" style="display:none">
+        <div class="row"><span>Merchant</span><b id="f-merch">—</b></div>
+        <div class="find">
+          <div class="muted">FreeBee found</div>
+          <div class="amt" id="f-amt">$—</div>
+          <div class="what" id="f-what">—</div>
+        </div>
+        <label class="fld">Survey code (fix any misread digit)</label>
+        <input id="f-code" class="code" type="text" inputmode="numeric" placeholder="26-digit code">
+        <label class="fld">Send reward to</label>
+        <input id="f-email" type="email" placeholder="you@email.com">
+        <button class="btn primary" onclick="sendBee()">Send the Bee 🐝</button>
       </div>
-      <label class="fld">Where should we send your reward?</label>
-      <div class="inwrap">
-        <input id="email" type="email" placeholder="you@email.com" value="demo@freebee.app">
-        <button class="mic" id="mic" title="Talk to FreeBee" onclick="talkToFreebee()">🎤</button>
-      </div>
-      <div class="steps" id="voice-status"></div>
-      <button class="btn primary" onclick="sendBee()">Send the Bee 🐝</button>
     </div>
     <a class="small" onclick="go('s-home')">← scan a different receipt</a>
   </section>
@@ -101,108 +117,141 @@
   <!-- SCREEN 3: working -->
   <section class="screen" id="s-work">
     <div class="counter"><div class="n" id="cnt">$0.00</div><div class="l">recovered live</div></div>
-    <iframe id="agent" title="agent"></iframe>
-    <div class="steps" id="work-steps">🐝 Bee is opening the survey…</div>
+    <img id="frame" alt="live bee" src="">
+    <div class="steps" id="work-steps">🐝 Dispatching the bee…</div>
+    <div class="watch">👀 Also playing live on the laptop screen</div>
   </section>
 
   <!-- SCREEN 4: done -->
   <section class="screen" id="s-done">
     <div class="done">
       <div class="chk">✅</div>
-      <div class="big" style="font-size:24px">Reward claimed & emailed!</div>
-      <div class="muted">Sent to <b id="d-email">demo@freebee.app</b></div>
-      <div class="code" id="d-code">FB-XXXXX</div>
-      <div class="muted" id="d-what">FREE Medium Fries 🍟 · $4.29 recovered</div>
+      <div class="big" style="font-size:24px">Reward claimed!</div>
+      <div class="muted">Emailed to <b id="d-email">—</b></div>
+      <div class="code-out" id="d-code">—</div>
+      <div class="muted" id="d-what">—</div>
       <button class="btn primary" style="max-width:280px" onclick="go('s-home')">Scan another 🐝</button>
     </div>
   </section>
 </div>
 
 <script>
-  // ---- tiny state ----
   var recovered = 0;
-  var current = { merchant:"McDonald's", item:"Big Mac Meal · $11.74", date:"Jul 18, 2026",
+  var HAS_BACKEND = false;
+  var current = { merchant:"McDonald's", survey_url:"https://www.mcdvoice.com", code:"",
                   amt:4.29, what:"FREE Medium Fries 🍟" };
 
-  function go(id){
-    document.querySelectorAll('.screen').forEach(function(s){ s.classList.toggle('on', s.id===id); });
-  }
+  // detect the laptop relay (served from server.py). If absent, we fall back to a visual demo.
+  fetch('/api/state').then(function(r){ HAS_BACKEND = r.ok; }).catch(function(){ HAS_BACKEND = false; });
 
-  function onSample(){ showFound(current, null); }
+  function go(id){ document.querySelectorAll('.screen').forEach(function(s){ s.classList.toggle('on', s.id===id); }); }
+
+  // ---- profile (localStorage) ----
+  function loadProfile(){
+    var p = {}; try{ p = JSON.parse(localStorage.getItem('freebee_profile')||'{}'); }catch(e){}
+    if(!p.email) p.email = 'enesyilmaz5157@gmail.com';   // prefilled for the demo
+    document.getElementById('p-name').value = p.name||'';
+    document.getElementById('p-email').value = p.email||'';
+    document.getElementById('p-phone').value = p.phone||'';
+    document.getElementById('p-zip').value = p.zip||'';
+    return p;
+  }
+  function saveProfile(){
+    var p = { name:val('p-name'), email:val('p-email'), phone:val('p-phone'), zip:val('p-zip') };
+    localStorage.setItem('freebee_profile', JSON.stringify(p));
+    go('s-home');
+  }
+  function val(id){ return document.getElementById(id).value.trim(); }
+
+  // ---- scan ----
   function onScan(input){
-    // Real vision parsing = backend (coming). For the demo we show the photo + use seed data.
-    var f = input.files && input.files[0];
-    var url = f ? URL.createObjectURL(f) : null;
-    showFound(current, url);
-  }
-  function showFound(r, thumbUrl){
-    document.getElementById('f-merch').textContent = r.merchant;
-    document.getElementById('f-item').textContent = r.item;
-    document.getElementById('f-date').textContent = r.date;
-    document.getElementById('f-amt').textContent = '$' + r.amt.toFixed(2);
-    document.getElementById('f-what').textContent = r.what;
-    var t = document.getElementById('thumb');
-    if (thumbUrl){ t.src = thumbUrl; t.style.display='block'; } else { t.style.display='none'; }
+    var f = input.files && input.files[0]; if(!f) return;
+    var t = document.getElementById('thumb'); t.src = URL.createObjectURL(f); t.style.display='block';
+    document.getElementById('scan-busy').style.display='block';
+    document.getElementById('scan-result').style.display='none';
     go('s-found');
-  }
 
-  // ---- voice intake (Web Speech API — works in Chrome/Android; typed field is the fallback) ----
-  function talkToFreebee(){
-    var status = document.getElementById('voice-status');
-    var mic = document.getElementById('mic');
-    var Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
-    function speak(t){ try{ var u=new SpeechSynthesisUtterance(t); speechSynthesis.speak(u);}catch(e){} }
-    if (!Rec){ status.textContent = "Voice needs Chrome — just type your email 🙂"; speak("What email should I send your reward to?"); return; }
-    speak("What email should I send your free reward to?");
-    status.textContent = "🎤 Listening… say your email";
-    mic.classList.add('live');
-    var rec = new Rec(); rec.lang='en-US'; rec.interimResults=false; rec.maxAlternatives=1;
-    rec.onresult = function(e){
-      var said = e.results[0][0].transcript || '';
-      var email = said.toLowerCase().replace(/\s+/g,'').replace(/\bat\b/g,'@').replace(/\bdot\b/g,'.');
-      document.getElementById('email').value = email;
-      status.textContent = "Got it: " + email;
-      speak("Great, sending your bee now.");
-    };
-    rec.onerror = function(){ status.textContent = "Didn't catch that — type it in 🙂"; };
-    rec.onend = function(){ mic.classList.remove('live'); };
-    rec.start();
+    if(!HAS_BACKEND){ // no laptop -> use seed data so the UI still demos
+      setTimeout(function(){ fillFound({merchant:current.merchant, survey_code:'04289055172704311962883043',
+        reward_description:current.what, reward_value_usd:current.amt, survey_url:current.survey_url}); }, 900);
+      return;
+    }
+    var fd = new FormData(); fd.append('photo', f);
+    fetch('/api/scan', { method:'POST', body: fd }).then(function(r){ return r.json(); })
+      .then(function(d){ if(!d.ok) throw new Error(d.error||'scan failed'); fillFound(d); })
+      .catch(function(e){ document.getElementById('scan-busy').innerHTML = '⚠️ Could not read that — try again or upload a clearer photo.'; });
+  }
+  function fillFound(d){
+    current.merchant = d.merchant || 'McDonald\'s';
+    current.survey_url = d.survey_url || 'https://www.mcdvoice.com';
+    current.code = d.survey_code || '';
+    current.what = d.reward_description || 'FREE reward';
+    current.amt = (typeof d.reward_value_usd === 'number' ? d.reward_value_usd : 4.29);
+    document.getElementById('f-merch').textContent = current.merchant;
+    document.getElementById('f-amt').textContent = '$' + current.amt.toFixed(2);
+    document.getElementById('f-what').textContent = current.what;
+    document.getElementById('f-code').value = current.code;
+    document.getElementById('f-email').value = (loadProfile().email || '');
+    document.getElementById('scan-busy').style.display='none';
+    document.getElementById('scan-result').style.display='block';
   }
 
   // ---- send the bee ----
   function sendBee(){
-    var email = document.getElementById('email').value || 'demo@freebee.app';
+    var code = val('f-code').replace(/\D/g,'');
+    var email = val('f-email') || 'demo@freebee.app';
     document.getElementById('d-email').textContent = email;
     document.getElementById('cnt').textContent = '$0.00';
-    document.getElementById('work-steps').textContent = '🐝 Bee is opening the survey…';
+    document.getElementById('frame').src = '';
+    document.getElementById('work-steps').textContent = '🐝 Dispatching the bee…';
     go('s-work');
-    // load the survey clone in autopilot — mimics the browser agent end-to-end (no backend needed).
-    var src = 'agent/survey_clone.html?auto=1&reward=' + encodeURIComponent(current.what) + '&value=' + current.amt;
-    document.getElementById('agent').src = src;
-    var steps = ['🐝 Entering the survey code…','🐝 Answering the questions…','🐝 Grabbing your reward…'];
-    var i=0; var iv=setInterval(function(){ document.getElementById('work-steps').textContent = steps[i%steps.length]; i++; }, 1300);
-    window._stepIv = iv;
+
+    if(!HAS_BACKEND){ return demoFallback(email); }
+
+    var profile = {}; try{ profile = JSON.parse(localStorage.getItem('freebee_profile')||'{}'); }catch(e){}
+    fetch('/api/run', { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ url: current.survey_url, code: code, email: email,
+                             reward: current.what, value: current.amt, profile: profile }) });
+
+    var frameTimer = setInterval(function(){ document.getElementById('frame').src = '/api/frame.jpg?ts=' + Date.now(); }, 700);
+    var poll = setInterval(function(){
+      fetch('/api/state').then(function(r){ return r.json(); }).then(function(s){
+        if(s.step_text) document.getElementById('work-steps').textContent = s.step_text;
+        if(s.done){
+          clearInterval(poll); clearInterval(frameTimer);
+          finish(s.code || 'FB-DEMO', email, s.error);
+        }
+      }).catch(function(){});
+    }, 900);
   }
 
-  // ---- reward comes back from the survey clone iframe ----
-  window.addEventListener('message', function(ev){
-    var d = ev.data || {};
-    if (d.type !== 'freebie:reward' && d.type !== 'freebee:reward') return;
-    clearInterval(window._stepIv);
-    animateCounter(d.value || current.amt);
-    document.getElementById('d-code').textContent = d.code || 'FB-DEMO';
-    document.getElementById('d-what').textContent = (d.reward || current.what) + ' · $' + (d.value||current.amt).toFixed(2) + ' recovered';
-    recovered += (d.value || current.amt);
-    document.getElementById('pill-amt').textContent = '$' + Math.round(recovered).toLocaleString();
-    setTimeout(function(){ go('s-done'); }, 1400);
-  });
+  function finish(code, email, error){
+    animateCounter(current.amt);
+    document.getElementById('d-code').textContent = code;
+    document.getElementById('d-email').textContent = email;
+    document.getElementById('d-what').textContent = current.what + ' · $' + current.amt.toFixed(2) + ' recovered';
+    if(!error){ recovered += current.amt; document.getElementById('pill-amt').textContent = '$' + Math.round(recovered).toLocaleString(); }
+    setTimeout(function(){ go('s-done'); }, 1500);
+  }
+
+  // visual-only fallback when there's no laptop backend (e.g. opened on GitHub Pages)
+  function demoFallback(email){
+    var steps = ['🐝 Entering the survey code…','🐝 Answering the questions…','🐝 Grabbing your reward…'];
+    var i=0; var iv=setInterval(function(){ document.getElementById('work-steps').textContent = steps[i%steps.length]; i++; }, 1200);
+    setTimeout(function(){ clearInterval(iv);
+      var code = 'FB-' + Math.random().toString(36).slice(2,7).toUpperCase();
+      finish(code, email, null);
+    }, 4200);
+  }
 
   function animateCounter(target){
-    var el = document.getElementById('cnt'); var start=0, t0=null, dur=1200;
+    var el = document.getElementById('cnt'); var t0=null, dur=1200;
     function frame(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur);
-      el.textContent = '$' + (start + (target-start)*p).toFixed(2); if(p<1) requestAnimationFrame(frame); }
+      el.textContent = '$' + (target*p).toFixed(2); if(p<1) requestAnimationFrame(frame); }
     requestAnimationFrame(frame);
   }
+
+  loadProfile();
 </script>
 </body>
 </html>

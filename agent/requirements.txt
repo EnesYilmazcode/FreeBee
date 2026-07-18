@@ -1,0 +1,6 @@
+browser-use
+flask
+python-dotenv
+playwright
+# NOTE (Windows): after install, run `pip uninstall aiodns` -- its c-ares DNS
+# resolver fails under the Proactor event loop and breaks all LLM calls.

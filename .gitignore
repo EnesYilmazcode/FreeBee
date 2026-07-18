@@ -3,3 +3,7 @@ __pycache__/
 .venv/
 venv/
 .env
+# local key-test scratch files (contain secrets, never commit)
+test_gemini_key.py
+test_key*.py
+*_key.py
