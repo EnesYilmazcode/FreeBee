@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">🐝</div>
+    <div class="brand">
+      <h1>FreeBee</h1>
+      <div class="tag">Free money, zero effort</div>
+    </div>
+    <div class="total" id="total">$0.00</div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="profile">Profile</button>
+    <button class="tab" data-tab="history">History</button>
+    <button class="tab" data-tab="rewards">Rewards</button>
+  </nav>
+
+  <!-- PROFILE -->
+  <section id="profile" class="panel active">
+    <p class="hint">Saved once, autofilled into any survey that asks. Stored only on your device.</p>
+    <form id="profile-form">
+      <div class="row">
+        <label>First name<input name="firstName" autocomplete="off" placeholder="Jane" /></label>
+        <label>Last name<input name="lastName" autocomplete="off" placeholder="Doe" /></label>
+      </div>
+      <label>Email<input name="email" type="email" autocomplete="off" placeholder="you@email.com" /></label>
+      <div class="row">
+        <label>Phone<input name="phone" autocomplete="off" placeholder="(555) 123-4567" /></label>
+        <label>ZIP<input name="zip" autocomplete="off" placeholder="10001" /></label>
+      </div>
+      <div class="row">
+        <label>Birth year<input name="birthYear" autocomplete="off" placeholder="1998" /></label>
+        <label>Gender
+          <select name="gender">
+            <option value="">Prefer not to say</option>
+            <option>Female</option>
+            <option>Male</option>
+            <option>Non-binary</option>
+          </select>
+        </label>
+      </div>
+      <button type="submit" class="btn">Save profile</button>
+      <button type="button" class="btn ghost" id="autofill">⚡ Autofill this page</button>
+      <div class="saved" id="saved-note"></div>
+    </form>
+  </section>
+
+  <!-- HISTORY -->
+  <section id="history" class="panel">
+    <p class="hint">Every survey the bee has completed for you.</p>
+    <ul class="list" id="history-list"></ul>
+  </section>
+
+  <!-- REWARDS -->
+  <section id="rewards" class="panel">
+    <p class="hint">Your reward codes. Tap a code to copy it.</p>
+    <ul class="list" id="rewards-list"></ul>
+  </section>
+
+  <footer>
+    <button class="link" id="add-demo">+ Add demo reward</button>
+    <button class="link danger" id="reset">Reset data</button>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
