@@ -152,6 +152,26 @@
       window.parent.postMessage({ type:'freebee:reward', code:code, value:VALUE, reward:REWARD }, '*');
     } catch(e){}
   }
+
+  // ---- ?auto=1 : autopilot that mimics the browser agent filling the survey ----
+  // Used by the phone UI (index.html) to show the whole flow with no backend.
+  // The REAL browser-use agent drives this same page WITHOUT ?auto (it clicks for itself).
+  function topBox(container){
+    var groups = {};
+    container.querySelectorAll('input[type=radio]').forEach(function(r){ (groups[r.name]=groups[r.name]||[]).push(r); });
+    Object.keys(groups).forEach(function(name){
+      var best = groups[name].reduce(function(a,b){ return (+b.value > +a.value) ? b : a; });
+      best.checked = true; // value 5 = "Highly Satisfied" = the top-box
+    });
+  }
+  function autopilot(){
+    setTimeout(function(){ document.getElementById('survey-code').value = '04289055172704311962883043'; next(); }, 800);
+    setTimeout(function(){ topBox(document.getElementById('m1')); }, 1700);
+    setTimeout(function(){ next(); }, 2500);
+    setTimeout(function(){ topBox(document.getElementById('m2')); }, 3300);
+    setTimeout(function(){ next(); }, 4100); // reveals the reward
+  }
+  if (params.get('auto')) { autopilot(); }
 </script>
 </body>
 </html>
