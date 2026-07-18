@@ -1,0 +1,48 @@
+              McDonald's (R)
+           Restaurant #99999
+           1234 Nugget Lane
+           Testville, NY 10000
+           TEL: (555) 010-0123
+
+--------------------------------------
+KS# 07                       Order 0137
+Side 1                          Reg 04
+--------------------------------------
+QTY ITEM                         AMOUNT
+ 1  Big Mac Meal Med              8.29
+       Coca-Cola Medium
+       World Famous Fries Med
+ 1  McFlurry OREO                 2.49
+--------------------------------------
+Subtotal                         10.78
+Tax                               0.96
+Take-Out Total                  $11.74
+
+Cash Tendered                    20.00
+Change                            8.26
+--------------------------------------
+Cashier: TEST DEMO      07/18/2026
+                        01:42 PM
+--------------------------------------
+
+     How was your visit? Tell us!
+
+  Complete a short survey within 7
+  days and get a validation code for
+  the offer below.
+
+           www.mcdvoice.com
+
+  Survey Code:
+  04289-05517-27043-11962-88304-3
+
+  >> FREE Medium Fries with purchase
+     of a sandwich <<
+
+  Validation Code: ________________
+  Redeem within 30 days of receipt.
+--------------------------------------
+      *** SAMPLE - NOT A REAL
+       RECEIPT - FreeBee demo ***
+      (fake store, fake address,
+        fake survey code)

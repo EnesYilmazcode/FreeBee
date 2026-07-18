@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Guest Experience Survey</title>
+<style>
+  :root{
+    --brand:#c8102e; --brand2:#ffb100; --ink:#1a1a1a; --muted:#6b7280;
+    --line:#e5e7eb; --ok:#0f9d58; --bg:#f4f5f7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  .wrap{max-width:640px;margin:0 auto;padding:24px 18px 60px}
+  header{display:flex;align-items:center;gap:14px;padding:20px 0}
+  .logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--brand2));
+        display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 6px 18px rgba(200,16,46,.25)}
+  h1{font-size:20px;margin:0}
+  .sub{color:var(--muted);font-size:13px;margin-top:2px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 24px;box-shadow:0 4px 24px rgba(0,0,0,.05)}
+  .bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin:0 0 22px}
+  .bar > i{display:block;height:100%;width:0;background:var(--brand);transition:width .4s ease}
+  label.q{display:block;font-weight:600;margin:0 0 12px;font-size:16px}
+  .code-boxes{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}
+  .code-boxes input{width:100%;max-width:340px;font-size:20px;letter-spacing:2px;padding:14px 16px;border:2px solid var(--line);
+        border-radius:12px;text-align:center;font-variant-numeric:tabular-nums}
+  .code-boxes input:focus{outline:none;border-color:var(--brand)}
+  table.matrix{width:100%;border-collapse:collapse;margin-top:6px}
+  table.matrix th{font-size:11px;color:var(--muted);font-weight:600;text-align:center;padding:6px 2px;vertical-align:bottom}
+  table.matrix td{padding:10px 2px;border-top:1px solid var(--line);text-align:center}
+  table.matrix td.rowlabel{text-align:left;font-size:14px;font-weight:500;white-space:nowrap}
+  table.matrix input[type=radio]{width:20px;height:20px;accent-color:var(--brand);cursor:pointer}
+  textarea{width:100%;min-height:84px;border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;resize:vertical}
+  .btn{margin-top:24px;width:100%;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:15px;
+        font-size:16px;font-weight:700;cursor:pointer;transition:filter .15s}
+  .btn:hover{filter:brightness(1.06)}
+  .reward{text-align:center;padding:12px 0}
+  .reward .big{font-size:26px;font-weight:800;margin:10px 0 2px}
+  .reward .code{display:inline-block;margin:16px 0;font-size:30px;font-weight:800;letter-spacing:3px;color:var(--brand);
+        background:#fff5f5;border:2px dashed var(--brand);border-radius:14px;padding:14px 26px;font-variant-numeric:tabular-nums}
+  .reward .val{color:var(--ok);font-weight:800;font-size:22px}
+  .demoTag{position:fixed;bottom:10px;right:12px;font-size:10px;color:#9aa0aa;letter-spacing:1px}
+  .hide{display:none}
+  .checkmark{font-size:48px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">🛎️</div>
+    <div>
+      <h1>Guest Experience Survey</h1>
+      <div class="sub" id="reward-line">Complete this survey to unlock your reward</div>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="bar"><i id="bar"></i></div>
+
+    <!-- STEP 0: code entry -->
+    <section id="step-0">
+      <label class="q" for="survey-code">Enter the survey code printed on your receipt</label>
+      <div class="code-boxes">
+        <input id="survey-code" name="survey-code" inputmode="numeric" autocomplete="off"
+               placeholder="e.g. 04289 05517 27043 11962 88304 3" aria-label="Survey code" />
+      </div>
+      <button class="btn" id="next-btn" data-step="0" onclick="next()">Start Survey ▸</button>
+    </section>
+
+    <!-- STEP 1: matrix -->
+    <section id="step-1" class="hide">
+      <label class="q">How satisfied were you with each of the following?</label>
+      <table class="matrix" id="m1"></table>
+      <button class="btn" id="next-btn-1" data-step="1" onclick="next()">Next ▸</button>
+    </section>
+
+    <!-- STEP 2: overall + comment -->
+    <section id="step-2" class="hide">
+      <label class="q">Overall, how satisfied were you with your visit today?</label>
+      <table class="matrix" id="m2"></table>
+      <label class="q" style="margin-top:22px">Any additional comments? (optional)</label>
+      <textarea id="comment" name="comment" placeholder="Optional"></textarea>
+      <button class="btn" id="submit-btn" data-step="2" onclick="next()">Submit Survey ▸</button>
+    </section>
+
+    <!-- STEP 3: reward -->
+    <section id="step-3" class="hide">
+      <div class="reward">
+        <div class="checkmark">✅</div>
+        <div class="big" id="reward-title">Thanks! Here's your reward:</div>
+        <div id="reward-desc" style="color:var(--muted)">FREE Medium Fries with purchase of a sandwich</div>
+        <div class="code" id="validation-code">— — —</div>
+        <div class="val" id="reward-value">$4.29 recovered</div>
+        <div class="sub" style="margin-top:16px">Write this code on your receipt and redeem within 30 days.</div>
+      </div>
+    </section>
+  </div>
+</div>
+<div class="demoTag">FREEBEE DEMO · SELF-HOSTED SURVEY CLONE (not a real merchant)</div>
+
+<script>
+  // ---- config via query string: ?reward=FREE%20Fries&value=4.29 ----
+  var params = new URLSearchParams(location.search);
+  var REWARD = params.get('reward') || 'FREE Medium Fries with purchase of a sandwich';
+  var VALUE  = parseFloat(params.get('value') || '4.29');
+  document.getElementById('reward-desc').textContent = REWARD;
+
+  var ROWS1 = ['Food quality','Order accuracy','Speed of service','Cleanliness','Staff friendliness'];
+  var ROWS2 = ['Overall satisfaction'];
+  var COLS  = ['Highly Satisfied','Satisfied','Neutral','Dissatisfied','Highly Dissatisfied']; // leftmost = top-box
+
+  function buildMatrix(tableId, rows, group){
+    var t = document.getElementById(tableId);
+    var head = '<tr><th></th>' + COLS.map(function(c){return '<th>'+c+'</th>';}).join('') + '</tr>';
+    var body = rows.map(function(r,ri){
+      var name = group+'_'+ri;
+      var cells = COLS.map(function(c,ci){
+        // value 5..1, leftmost (ci=0) = 5 = "Highly Satisfied" = the top-box the agent should pick
+        return '<td><input type="radio" name="'+name+'" value="'+(5-ci)+'" aria-label="'+r+': '+c+'"></td>';
+      }).join('');
+      return '<tr><td class="rowlabel">'+r+'</td>'+cells+'</tr>';
+    }).join('');
+    t.innerHTML = head + body;
+  }
+  buildMatrix('m1', ROWS1, 'q1');
+  buildMatrix('m2', ROWS2, 'q2');
+
+  var step = 0, TOTAL = 3;
+  function setBar(){ document.getElementById('bar').style.width = Math.round((step/TOTAL)*100) + '%'; }
+  setBar();
+
+  function show(n){
+    for (var i=0;i<=3;i++){ document.getElementById('step-'+i).classList.toggle('hide', i!==n); }
+    step = n; setBar();
+    if (n===3){ reveal(); }
+  }
+
+  function next(){
+    // NOTE: intentionally NO hard validation — accepts ANY code, ANY answers.
+    // This is what makes the live money-shot deterministic and infinitely re-runnable.
+    show(step + 1);
+  }
+
+  function reveal(){
+    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    var code = 'FB-';
+    for (var i=0;i<5;i++){ code += chars[Math.floor(Math.random()*chars.length)]; }
+    document.getElementById('validation-code').textContent = code;
+    document.getElementById('reward-value').textContent = '$' + VALUE.toFixed(2) + ' recovered';
+    // Tell the FreeBee dashboard (if this page is embedded in an iframe) to tick the counter.
+    try {
+      window.parent.postMessage({ type:'freebee:reward', code:code, value:VALUE, reward:REWARD }, '*');
+    } catch(e){}
+  }
+</script>
+</body>
+</html>

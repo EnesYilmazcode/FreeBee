@@ -1,0 +1,40 @@
+[
+  {
+    "merchant": "McDonald's",
+    "survey_url": "https://www.mcdvoice.com",
+    "survey_code": "04289055172704311962883043",
+    "survey_code_segments": ["04289", "05517", "27043", "11962", "88304", "3"],
+    "store_number": "99999",
+    "ks_number": "07",
+    "register_number": "04",
+    "transaction_number": "0137",
+    "date": "2026-07-18",
+    "time": "13:42",
+    "amount": 11.74,
+    "reward_description": "FREE Medium Fries with purchase of a sandwich",
+    "reward_value_usd": 4.29,
+    "survey_deadline_days": 7,
+    "validation_redeem_days": 30,
+    "captcha_expected": false,
+    "extraction_confidence": 0.97
+  },
+  {
+    "merchant": "CVS/pharmacy",
+    "survey_url": "https://www.cvshealthsurvey.com",
+    "survey_code": "88423319007521047",
+    "survey_code_segments": ["8842", "3319", "0075", "2104", "7"],
+    "store_number": "09999",
+    "ks_number": null,
+    "register_number": "04",
+    "transaction_number": "4402198",
+    "date": "2026-07-18",
+    "time": "14:15",
+    "amount": 19.97,
+    "reward_description": "Entry to win a $1,000 CVS gift card (monthly sweepstakes)",
+    "reward_value_usd": 1000.00,
+    "survey_deadline_days": 7,
+    "validation_redeem_days": null,
+    "captcha_expected": false,
+    "extraction_confidence": 0.95
+  }
+]

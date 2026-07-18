@@ -1,0 +1,43 @@
+======================================
+              CVS/pharmacy
+             Store #09999
+          500 Placeholder Plaza
+           Testville, NY 10000
+             (555) 010-0456
+======================================
+ExtraCare Card  ****-****-8842
+
+ 1  Sensodyne Toothpaste 4oz       6.49
+ 1  CVS Cotton Rounds 100ct        3.29
+ 1  Vitamin C 500mg 60ct           8.99
+--------------------------------------
+Subtotal                          18.77
+Sales Tax                          1.20
+TOTAL                            $19.97
+
+VISA  ************1234            19.97
+--------------------------------------
+Store 09999   Reg 04   Trn 4402198
+Cashier 7781
+07/18/2026                    02:15 PM
+--------------------------------------
+
+     *** WE WANT YOUR FEEDBACK ***
+
+  Take a short survey about today's
+  visit for a chance to win a $1,000
+  CVS gift card (monthly drawing).
+  No purchase necessary. Must be 18+.
+
+        www.cvshealthsurvey.com
+
+  Survey Code: 8842 3319 0075 2104 7
+
+  Complete within 7 days of purchase.
+  See website for full rules.
+--------------------------------------
+       *** SAMPLE - NOT A REAL
+        RECEIPT - FreeBee demo ***
+       (fake store, fake address,
+         fake survey code)
+======================================
