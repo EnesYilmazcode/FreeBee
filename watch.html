@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FreeBee — Live Watch</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#0f0f12;color:#fff;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+       height:100vh;display:flex;flex-direction:column}
+  header{display:flex;align-items:center;gap:12px;padding:14px 22px;background:#17171c;border-bottom:1px solid #26262e}
+  .dot{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ffb100,#ff8a00);
+       display:flex;align-items:center;justify-content:center;font-size:20px}
+  h1{font-size:20px;margin:0;font-weight:800}
+  .amt{margin-left:auto;font-size:26px;font-weight:850;color:#37d67a}
+  .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:18px;overflow:hidden}
+  #frame{max-width:100%;max-height:100%;border-radius:14px;border:1px solid #26262e;background:#000}
+  footer{padding:14px 22px;background:#17171c;border-top:1px solid #26262e;display:flex;align-items:center;gap:16px}
+  .step{font-size:18px;font-weight:600}
+  .code{margin-left:auto;font-size:26px;font-weight:850;letter-spacing:2px;color:#ffb100;
+        background:#1e1a10;border:2px dashed #ffb100;border-radius:12px;padding:8px 20px;display:none}
+  .idle{opacity:.5}
+</style>
+</head>
+<body>
+  <header>
+    <div class="dot">🐝</div>
+    <h1>FreeBee — the bee is working</h1>
+    <div class="amt" id="amt"></div>
+  </header>
+  <div class="stage"><img id="frame" alt="live browser" /></div>
+  <footer>
+    <div class="step idle" id="step">Idle — waiting for a receipt from the phone…</div>
+    <div class="code" id="code"></div>
+  </footer>
+<script>
+  var lastSeq = -1;
+  setInterval(function(){
+    fetch('/api/state').then(function(r){ return r.json(); }).then(function(s){
+      var step = document.getElementById('step');
+      step.textContent = s.step_text || 'Idle…';
+      step.classList.toggle('idle', !s.running && !s.done);
+      var code = document.getElementById('code');
+      if(s.done && s.code){ code.style.display='inline-block'; code.textContent = s.code; }
+      else if(s.running){ code.style.display='none'; }
+      if(s.value && (s.running || s.done)){ document.getElementById('amt').textContent = '$' + Number(s.value).toFixed(2); }
+      if(s.frame_seq !== lastSeq){ lastSeq = s.frame_seq; document.getElementById('frame').src = '/api/frame.jpg?ts=' + Date.now(); }
+    }).catch(function(){});
+  }, 700);
+</script>
+</body>
+</html>

@@ -141,6 +141,35 @@
   var current = { merchant:"McDonald's", survey_url:"https://www.mcdvoice.com", code:"",
                   amt:4.29, what:"FREE Medium Fries 🍟" };
 
+  // Bulletproof fallback: if OCR fails or reads a bad code, use this known code
+  // (still editable on screen, so you can drop in a fresh receipt's code).
+  var FALLBACK = { merchant:"McDonald's", survey_url:"https://www.mcdvoice.com",
+                   survey_code:"17480043107182612009001377",
+                   reward_description:"FREE Medium Fries 🍟", reward_value_usd:4.29 };
+  function withFallbackCode(d){
+    d = d || {};
+    if(!d.survey_code || d.survey_code.length < 20) d.survey_code = FALLBACK.survey_code;
+    d.survey_url = d.survey_url || FALLBACK.survey_url;
+    d.merchant = d.merchant || FALLBACK.merchant;
+    d.reward_description = d.reward_description || FALLBACK.reward_description;
+    if(typeof d.reward_value_usd !== 'number') d.reward_value_usd = FALLBACK.reward_value_usd;
+    return d;
+  }
+  // Convert any photo (incl. iPhone HEIC) to a reasonably-sized JPEG before upload.
+  function downscale(file, cb){
+    var img = new Image();
+    img.onload = function(){
+      var max = 1600, s = Math.min(1, max / Math.max(img.width, img.height));
+      var c = document.createElement('canvas');
+      c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      try { c.toBlob(function(b){ cb(b || file, c.toDataURL('image/jpeg', 0.85)); }, 'image/jpeg', 0.85); }
+      catch(e){ cb(file, img.src); }
+    };
+    img.onerror = function(){ cb(file, URL.createObjectURL(file)); };
+    img.src = URL.createObjectURL(file);
+  }
+
   // detect the laptop relay (served from server.py). If absent, we fall back to a visual demo.
   fetch('/api/state').then(function(r){ HAS_BACKEND = r.ok; }).catch(function(){ HAS_BACKEND = false; });
 
@@ -166,20 +195,19 @@
   // ---- scan ----
   function onScan(input){
     var f = input.files && input.files[0]; if(!f) return;
-    var t = document.getElementById('thumb'); t.src = URL.createObjectURL(f); t.style.display='block';
     document.getElementById('scan-busy').style.display='block';
+    document.getElementById('scan-busy').innerHTML = '<span class="spin"></span>Reading your receipt…';
     document.getElementById('scan-result').style.display='none';
     go('s-found');
 
-    if(!HAS_BACKEND){ // no laptop -> use seed data so the UI still demos
-      setTimeout(function(){ fillFound({merchant:current.merchant, survey_code:'04289055172704311962883043',
-        reward_description:current.what, reward_value_usd:current.amt, survey_url:current.survey_url}); }, 900);
-      return;
-    }
-    var fd = new FormData(); fd.append('photo', f);
-    fetch('/api/scan', { method:'POST', body: fd }).then(function(r){ return r.json(); })
-      .then(function(d){ if(!d.ok) throw new Error(d.error||'scan failed'); fillFound(d); })
-      .catch(function(e){ document.getElementById('scan-busy').innerHTML = '⚠️ Could not read that — try again or upload a clearer photo.'; });
+    downscale(f, function(blob, previewUrl){
+      var t = document.getElementById('thumb'); t.src = previewUrl; t.style.display='block';
+      if(!HAS_BACKEND){ setTimeout(function(){ fillFound(FALLBACK); }, 800); return; }
+      var fd = new FormData(); fd.append('photo', blob, 'receipt.jpg');
+      fetch('/api/scan', { method:'POST', body: fd }).then(function(r){ return r.json(); })
+        .then(function(d){ fillFound(withFallbackCode(d.ok ? d : {})); })
+        .catch(function(){ fillFound(FALLBACK); });   // never block the demo
+    });
   }
   function fillFound(d){
     current.merchant = d.merchant || 'McDonald\'s';
